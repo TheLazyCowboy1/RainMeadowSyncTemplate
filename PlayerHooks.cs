@@ -3,9 +3,8 @@
 namespace RainMeadowSyncTemplate;
 
 /**<summary>
- * This is just an example hook.
- * This is from someone else's template.
- * I don't remember whose.
+ * Copied from https://github.com/NoirCatto/RainWorldRemix/tree/master/Templates/TemplateModWithOptions
+ * Therefore, credit goes to NoirCatto for this file.
  * </summary>
  */
 public class PlayerHooks

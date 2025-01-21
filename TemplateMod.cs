@@ -15,7 +15,13 @@ namespace RainMeadowSyncTemplate; //rename this with ctrl + r
 //Rain Meadow:
 [BepInDependency(MeadowCompatSetup.RAIN_MEADOW_ID, BepInDependency.DependencyFlags.SoftDependency)]
 
+
 [BepInPlugin(MOD_ID, MOD_NAME, MOD_VERSION)]
+/**<summary>
+ * Copied, with modifications, from https://github.com/NoirCatto/RainWorldRemix/tree/master/Templates/TemplateModWithOptions
+ * Therefore, credit goes to NoirCatto for this file.
+ * </summary>
+ */
 public class TemplateMod : BaseUnityPlugin
 {
     public const string MOD_ID = "AuthorName.ModName";

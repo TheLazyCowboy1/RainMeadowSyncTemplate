@@ -46,6 +46,10 @@ public abstract class ManuallyUpdatedState : OnlineResource.ResourceData.Resourc
         //however... I don't think I can trust all players' internal clocks to be perfectly synced.
         if (LastUpdateTime != data1.LastUpdateTime)
         {
+            //reset data update time, so this won't happen again until
+            //the state's info is updated
+            data1.LastUpdateTime = LastUpdateTime;
+
             MeadowCompatSetup.ExtraDebug("More recent state information received!");
             //If I am the host, I should not be receiving others' data
             //So, send my own!

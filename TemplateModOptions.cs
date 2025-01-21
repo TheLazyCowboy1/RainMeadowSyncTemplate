@@ -3,6 +3,11 @@ using UnityEngine;
 
 namespace RainMeadowSyncTemplate;
 
+/**<summary>
+ * Copied, with significant modifications, from https://github.com/NoirCatto/RainWorldRemix/tree/master/Templates/TemplateModWithOptions
+ * Therefore, credit goes to NoirCatto for this file.
+ * </summary>
+ */
 public class TemplateModOptions : OptionInterface
 {
     public TemplateModOptions()
