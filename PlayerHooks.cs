@@ -2,6 +2,12 @@
 
 namespace RainMeadowSyncTemplate;
 
+/**<summary>
+ * This is just an example hook.
+ * This is from someone else's template.
+ * I don't remember whose.
+ * </summary>
+ */
 public class PlayerHooks
 {
     public static void PlayerOnctor(On.Player.orig_ctor orig, Player self, AbstractCreature abstractcreature, World world)
