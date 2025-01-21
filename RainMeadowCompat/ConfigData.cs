@@ -59,6 +59,8 @@ public class ConfigData : ManuallyUpdatedData
             for (int i = 0; i < Strings.Length; i++)
                 Strings[i] = StringConfigs[i].Value;
 
+            MeadowCompatSetup.LogSomething("Initialized a new ConfigState.");
+
         }
 
         public override void UpdateReceived(ManuallyUpdatedData data, OnlineResource resource)
@@ -75,6 +77,8 @@ public class ConfigData : ManuallyUpdatedData
 
             for (int i = 0; i < Strings.Length; i++)
                 StringConfigs[i].Value = Strings[i];
+
+            MeadowCompatSetup.LogSomething("Updated config values.");
         }
     }
 }

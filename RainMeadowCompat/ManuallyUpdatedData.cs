@@ -72,6 +72,7 @@ public abstract class ManuallyUpdatedData : OnlineResource.ResourceData
     public ulong ResetUpdateTime()
     {
         LastUpdateTime = (ulong)DateTime.Now.Ticks;
+        MeadowCompatSetup.ExtraDebug("Updated LastUpdateTime: " + LastUpdateTime);
         return LastUpdateTime;
     }
 

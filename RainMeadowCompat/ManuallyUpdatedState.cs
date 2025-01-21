@@ -38,20 +38,29 @@ public abstract class ManuallyUpdatedState : OnlineResource.ResourceData.Resourc
      */
     public override void ReadTo(OnlineResource.ResourceData data, OnlineResource resource)
     {
-        //return if the state has not yet been updated to a newer time
         ManuallyUpdatedData data1 = (ManuallyUpdatedData)data;
-        if (LastUpdateTime > data1.LastUpdateTime)
+
+        //return if the state has not yet been updated to a newer time
+
+        //I would prefer this to be > (so it would only update if the new update came AFTER the previous one)
+        //however... I don't think I can trust all players' internal clocks to be perfectly synced.
+        if (LastUpdateTime != data1.LastUpdateTime)
         {
+            MeadowCompatSetup.ExtraDebug("More recent state information received!");
             //If I am the host, I should not be receiving others' data
             //So, send my own!
             if (data1.HostControlled && OnlineManager.lobby.isOwner)
             {
+                MeadowCompatSetup.ExtraDebug("I'm the host. Regenerating state data.");
                 data1.UpdateData();
                 return;
             }
             //Do not acknowledge data from clients, whatsoever!
             else if (data1.HostControlled && !IsHost)
+            {
+                MeadowCompatSetup.ExtraDebug("Received data from a client; ignored.");
                 return;
+            }
 
             UpdateReceived(data1, resource);
         }

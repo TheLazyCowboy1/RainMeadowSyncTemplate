@@ -137,4 +137,15 @@ public class MeadowCompatSetup
     {
         TemplateMod.LogSomething(obj);
     }
+
+    /**<summary>
+     * If you want EXTRA debug info, you can use this.
+     * Splitting logging into two separate methods makes it easier to
+     * disable unneeded logging messages without fully deleting them.
+     * </summary>
+     */
+    public static void ExtraDebug(object obj)
+    {
+        //TemplateMod.LogSomething(obj);
+    }
 }
