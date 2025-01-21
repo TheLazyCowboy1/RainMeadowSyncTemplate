@@ -53,8 +53,9 @@ public class TemplateMod : BaseUnityPlugin
         On.RainWorld.OnModsInit += RainWorldOnOnModsInit;
 
         //this is the easiest way to set up the Rain Meadow stuff
-        MeadowCompatSetup.InitializeMeadowCompatibility();
-        //alternatively, you could call
+        SafeMeadowInterface.InitializeMeadowCompatibility();
+        //alternatively, you could call SafeMeadowInterface.ModsInitialized() after mods are initialized
+        //but don't call both
     }
     private void OnDisable()
     {
@@ -67,7 +68,7 @@ public class TemplateMod : BaseUnityPlugin
             On.Player.ctor -= PlayerHooks.PlayerOnctor;
         }
 
-        MeadowCompatSetup.RemoveHooks();
+        SafeMeadowInterface.RemoveHooks();
     }
 
     private bool IsInit;
@@ -85,6 +86,9 @@ public class TemplateMod : BaseUnityPlugin
             IsInit = true;
 
             Logger.LogDebug("Hooks added!");
+
+            //this is an alternate way to initialize Rain Meadow compatibility:
+            //SafeMeadowInterface.ModsInitialized();
         }
         catch (Exception ex)
         {

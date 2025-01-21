@@ -29,6 +29,8 @@ public class MeadowCompatSetup
     private static bool AddedOnModsInit = false;
 
     /**<summary>
+     * Use SafeMeadowInterface.InitializeMeadowCompatibility() instead.
+     * 
      * The easiest way to set up Meadow compatibility, since everything is managed here.
      * Should be called by OnEnable().
      * MUST be called before mods are initialized.
@@ -51,6 +53,8 @@ public class MeadowCompatSetup
     }
 
     /**<summary>
+     * Use SafeMeadowInterface.ModsInitialized() instead.
+     * 
      * Should be called when or after mods are initialized.
      * Automatically called if InitializeMeadowCompatibility() was called at OnEnable().
      * Checks if Rain Meadow is installed.
@@ -86,6 +90,8 @@ public class MeadowCompatSetup
     }
 
     /**<summary>
+     * Use SafeMeadowInterface.RemoveHooks() instead.
+     * 
      * Should be called by OnDisable().
      * Removes any hooks added by this file.
      * </summary>

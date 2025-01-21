@@ -38,7 +38,7 @@ public class EasyConfigSync
                 MeadowCompatSetup.LogSomething("Couldn't add config" + config.ToString() + ". Not a bool, int, float, or string.");
         }
 
-        MeadowInterface.UpdateConfigData();
+        SafeMeadowInterface.UpdateConfigData();
     }
 
     public static void RemoveConfigs(params ConfigurableBase[] configs)
@@ -53,6 +53,6 @@ public class EasyConfigSync
                 MeadowCompatSetup.LogSomething("Couldn't remove config" + config.ToString() + ". Not a bool, int, float, or string.");
         }
 
-        MeadowInterface.UpdateConfigData();
+        SafeMeadowInterface.UpdateConfigData();
     }
 }

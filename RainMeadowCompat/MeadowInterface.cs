@@ -3,11 +3,11 @@
 namespace RainMeadowCompat;
 
 /**<summary>
- * Apparently I don't understand how soft-compatibility works too well...
- * But this file is here for you to safely signal to signal your Rain Meadow data
+ * This file is here for you to safely signal to signal your Rain Meadow data
  * or receive Rain Meadow information
- * without crashing the game if Rain Meadow is not installed.
- * Thanks to try/catches. Put a lot of them in here.
+ * through the SafeMeadowInterface class.
+ * 
+ * Anything you want to call here should always be called by SafeMeadowInterface instead.
  * 
  * All functions in this file are PURELY examples.
  * </summary>
