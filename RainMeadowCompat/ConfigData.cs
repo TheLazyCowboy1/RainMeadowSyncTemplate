@@ -37,10 +37,21 @@ public class ConfigData : ManuallyUpdatedData
 
         [OnlineField]
         bool[] Bools;
+        [OnlineField]
         int[] Ints;
+        [OnlineField]
         float[] Floats;
+        [OnlineField]
         string[] Strings;
 
+        /**<summary>
+         * An empty constructor is necessary. Rain Meadow will not start without it.
+         * I don't know why...
+         * 
+         * I have no clue when or why this happens, so just assume it "never does."
+         * </summary>
+         */
+        public ConfigState() : base(null) { }
         public ConfigState(ConfigData data) : base(data)
         {
             Bools = new bool[BoolConfigs.Count];

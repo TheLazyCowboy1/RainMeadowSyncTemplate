@@ -10,6 +10,13 @@ namespace RainMeadowCompat;
  * 1. What data is synced (fields)
  * 2. How this data is set (constructor)
  * 3. How this data is read (UpdateReceived())
+ * 
+ * You MUST have two constructors:
+ * e.g:
+ * public RandomizerState() : base(null) { }
+ * public RandomizerState(RandomizerData data) : base(data) {
+ *  //put initialization code here
+ * }
  * </summary>
  */
 public abstract class ManuallyUpdatedState : OnlineResource.ResourceData.ResourceDataState
@@ -27,7 +34,9 @@ public abstract class ManuallyUpdatedState : OnlineResource.ResourceData.Resourc
      * </summary>
      */
     public ManuallyUpdatedState(ManuallyUpdatedData data) {
-        LastUpdateTime = data.ResetUpdateTime();
+        if (data != null)
+            LastUpdateTime = data.ResetUpdateTime();
+
         IsHost = OnlineManager.lobby != null && OnlineManager.lobby.isOwner;
     }
 
