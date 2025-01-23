@@ -47,7 +47,7 @@ public class MeadowInterface
      * Thus safely deciding whether or not to skip the process.
      * </summary>
      */
-    public static bool ShouldSkipRandomization()
+    public static bool EXAMPLE_ShouldSkipRandomization()
     {
         if (!MeadowCompatSetup.MeadowEnabled) return false;
 
@@ -57,4 +57,5 @@ public class MeadowInterface
         }
         catch { return false; }
     }
+
 }

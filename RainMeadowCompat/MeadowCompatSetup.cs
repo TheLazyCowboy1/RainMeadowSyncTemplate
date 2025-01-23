@@ -8,13 +8,13 @@ namespace RainMeadowCompat;
 
 /**<summary>
  * This class is designed to make setting up Rain Meadow compatibility as easy as possible.
- * All you really need to concern yourself with within this file are:
+ * All you really need to concern yourself with within this file is:
  * AddLobbyData() - here is where you'll initialize your ResourceDatas.
  * LogSomething() - for convenient logging.
  * 
  * Make sure to EITHER
- * call InitializeMeadowCompatibility() on OnEnable()
- * OR call ModsInitialized() when/after mods are initialized, and before the lobby is joined.
+ * call SafeMeadowInterface.InitializeMeadowCompatibility() on OnEnable()
+ * OR call SafeMeadowInterface.ModsInitialized() when/after mods are initialized, and before the lobby is joined.
  * </summary>
  */
 public class MeadowCompatSetup
@@ -128,7 +128,8 @@ public class MeadowCompatSetup
      */
     private static void AddLobbyData(OnlineResource lobby)
     {
-        lobby.AddData(new ConfigData());
+        if (!lobby.TryGetData(out ConfigData currentConfigData))
+            lobby.AddData(new ConfigData());
 
         //lobby.AddData<ExampleData>(new ExampleData());
     }

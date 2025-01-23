@@ -53,7 +53,8 @@ public class SafeMeadowInterface
     {
         try
         {
-            MeadowCompatSetup.RemoveHooks();
+            if (MeadowCompatSetup.MeadowEnabled)
+                MeadowCompatSetup.RemoveHooks();
         } catch { }
     }
 
@@ -73,7 +74,8 @@ public class SafeMeadowInterface
     {
         try
         {
-            MeadowInterface.UpdateConfigData();
+            if (MeadowCompatSetup.MeadowEnabled)
+                MeadowInterface.UpdateConfigData();
         }
         catch { }
     }
@@ -88,11 +90,12 @@ public class SafeMeadowInterface
      * Thus safely deciding whether or not to skip the process.
      * </summary>
      */
-    public static bool ShouldSkipRandomization()
+    public static bool EXAMPLE_ShouldSkipRandomization()
     {
         try
         {
-            return MeadowInterface.ShouldSkipRandomization();
+            if (MeadowCompatSetup.MeadowEnabled)
+                return MeadowInterface.EXAMPLE_ShouldSkipRandomization();
         }
         catch { }
         return false;
