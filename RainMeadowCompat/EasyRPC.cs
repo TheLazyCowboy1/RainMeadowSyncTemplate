@@ -97,9 +97,9 @@ public class EasyRPC
                     continue;
 
                 //detect if player matches "SendTo" requirement
-                if (sendTo == Recipient.Host && player != OnlineManager.lobby.owner)
+                if (sendTo == Recipient.Host && player.inLobbyId != OnlineManager.lobby.owner.inLobbyId)
                     continue;
-                if (sendTo == Recipient.Clients && player == OnlineManager.lobby.owner)
+                if (sendTo == Recipient.Clients && player.inLobbyId == OnlineManager.lobby.owner.inLobbyId)
                     continue;
 
                 //invoke the RPC
