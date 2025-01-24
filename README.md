@@ -103,11 +103,13 @@ EasyRPCs will be sent to the players you specify (the Host, the Clients, or ever
    ```
    public static void InvokeMyExampleRPC(int myFavoriteNumber, string childhoodNickname) {
    if (!MeadowCompatSetup.MeadowEnabled) return;
-   try { MeadowInterface.InvokeMyExampleRPC(myFavoriteNumber, childhoodNickname) }
+   try { MeadowInterface.InvokeMyExampleRPC(myFavoriteNumber, childhoodNickname); }
    catch { return; }
    ```
    Make sure you remember to add a try/catch!
 5. Call your function in SafeMeadowInferface whenever you want to invoke your RPC.
+
+The [RPCMethod] you create (ExampleRPCMethod() above) is what will be <ins>called when an RPC is received.</ins>
 
 ### Custom RPCs:
 
