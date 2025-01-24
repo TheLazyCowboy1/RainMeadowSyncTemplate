@@ -156,7 +156,7 @@ If you want to get these testing builds or contribute to Rain Meadow in any way,
 
 Build with one of the following configurations:
 * StoryP2P for testing Story mode.
-* LocalP2P for testing Meadow mode.
+* FreeRoamP2P for testing Meadow mode.
 * ArenaP2P for testing Arena mode.
 
 With one of these builds copied into your mod folder, you should be able to open Rain World, create a lobby, open Rain World again, and join the lobby you made.
