@@ -43,7 +43,11 @@ In fact, RPCs are effectively and somewhat literally just function calls.
 
 ### States:
 **Developer Description:** A State
-* insert description here
+* is sent to all clients that are subscribed to the resource/entity that has customdata,
+* always goes from entity-owner to resource-owner ("feed"), then resource-owner to subscribers ("subscription").
+* because state stops sending once the resource/entity ceases existing (or client unsubscribes) some state-changes near end-of-life might never been seen (or even long-living ones given enough lag)
+* once the client has acknowledged state at least once, delta-encoding kicks in, state that doesn't change doesn't take any bandwidth (does take a bit of processing and allocation tho)
+* the delta encoding system ain't the brightest and quite a few things can break it
 
 View a State as a **collection** of variables.
 This State is synced among everyone who is **subscribed** to it.
