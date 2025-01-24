@@ -65,8 +65,8 @@ public class EasyRPC
      * An easy method of sending the RPC to players.
      * </summary>
      * <param name="invokeOnce">
-     * If true, the RPC will only be sent once. Thus, the recipient might miss it.
-     * If false, the RPC will be sent continually until the recipient acknowledges it.
+     * If true, the RPC will only be sent if it cannot be sent locally.
+     * It doesn't make very much of a different whether it's true or false.
      * </param>
      */
     public void InvokeRPC(bool invokeOnce, params object[] args) => InvokeRPC(invokeOnce, SentBy, SendTo, SendToSelf, args);
@@ -75,8 +75,8 @@ public class EasyRPC
      * Temporarily overrides the recipients defined in the constructor, and sends the RPC to players.
      * </summary>
      * <param name="invokeOnce">
-     * If true, the RPC will only be sent once. Thus, the recipient might miss it.
-     * If false, the RPC will be sent continually until the recipient acknowledges it.
+     * If true, the RPC will only be sent if it cannot be sent locally.
+     * It doesn't make very much of a different whether it's true or false.
      * </param>
      */
     public void InvokeRPC(bool invokeOnce, Recipient sentBy, Recipient sendTo, bool sendToSelf, params object[] args)
