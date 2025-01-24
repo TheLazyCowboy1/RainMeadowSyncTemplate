@@ -26,11 +26,27 @@ One dev's rule of thumb is: "if a new player joins will they be desynced?"\
 In my personal opinion, RPCs are much easier to implement and understand. However, States are likely more useful and should be generally preferred for smooth syncing.
 
 # RPCs:
-Developer Description: An RPC
-* is sent in full every tick until acknowledged. The client \*will\* receive it.
-* can be sent directly to a client (but be mindful of the data-path that States take if your logic depends on other state)
+**Developer Description:** An RPC
+* is sent in full **every tick** until acknowledged. The client \*will\* receive it.
+* can be sent **directly** to a client (but be mindful of the data-path that States take if your logic depends on other state)
 * doesn't have any compression fancies
 
-In short: RPCs are an easy, guarenteed way to send a block of information once and quickly.
+**In short:** RPCs are an easy, guarenteed way to send a block of information once and quickly.
 However, they aren't very efficient at reducing bandwidth or dealing with change.
-They simply send _all_ of their data continually until the client receives it and acknowledges it.
+They simply send _all_ of their data continually until the client receives it and acknowledges it.\
+Think of a RPC as a **single function call**.
+An RPC defines which function to call, and what the parameters for that function are.
+For example, hitting a creature with a rock might send an RPC indicating that Creature.Stun() should be called for that creature.\
+In fact, RPCs are effectively and somewhat literally just function calls.
+
+# States:
+**Developer Description:** A State
+* insert description here
+
+View a State as a **collection** of variables.
+This State is synced among everyone who is **subscribed** to it.
+If one of the variables change, the State signals everyone subscribed to it that the variable has been changed.
+Thus, all the data is kept in-sync without you having to worry about when to signal that there's been a change.
+Additionally, States are very bandwidth-efficient because they only send online information about changes made.
+
+In short: states are more complicated but more efficient.
