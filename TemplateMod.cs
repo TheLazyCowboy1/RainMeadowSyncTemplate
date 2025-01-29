@@ -1,4 +1,4 @@
-﻿using System;
+INE﻿using System;
 using System.Security;
 using System.Security.Permissions;
 using BepInEx;
@@ -13,7 +13,7 @@ namespace RainMeadowSyncTemplate; //rename this with ctrl + r
 
 //dependencies:
 //Rain Meadow:
-[BepInDependency(MeadowCompatSetup.RAIN_MEADOW_ID, BepInDependency.DependencyFlags.SoftDependency)]
+[BepInDependency(MeadowCompatSetup.RAIN_MEADOW_BEPINEX_ID, BepInDependency.DependencyFlags.SoftDependency)]
 
 
 [BepInPlugin(MOD_ID, MOD_NAME, MOD_VERSION)]
