@@ -1,4 +1,4 @@
-INE﻿using System;
+using System;
 using System.Security;
 using System.Security.Permissions;
 using BepInEx;
