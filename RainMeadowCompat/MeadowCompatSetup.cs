@@ -20,7 +20,8 @@ namespace RainMeadowCompat;
 public class MeadowCompatSetup
 {
     //the mod id of Rain Meadow
-    public const string RAIN_MEADOW_ID = "henpemaz.rainmeadow";
+    public const string RAIN_MEADOW_BEPINEX_ID = "henpemaz.rainmeadow";
+    public const string RAIN_MEADOW_ID = "henpemaz_rainmeadow";
 
     //whether Rain Meadow is currently enabled. Set by ModsInitialized()
     public static bool MeadowEnabled = false;
