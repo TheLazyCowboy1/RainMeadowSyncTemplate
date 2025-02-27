@@ -1,4 +1,5 @@
 ﻿using RainMeadow;
+using static RainMeadowCompat.EasyConfigSync;
 
 namespace RainMeadowCompat;
 
@@ -12,8 +13,13 @@ namespace RainMeadowCompat;
  * All functions in this file are PURELY examples.
  * </summary>
  */
-public class MeadowInterface
+public static class MeadowInterface
 {
+    //public static ConfigData configData = new();
+    static MeadowInterface() {
+        MeadowCompatSetup.DataToAdd.Add(typeof(ConfigData));
+    }
+
     /**<summary>
      * This is an example of how you could signal that there has been a change to some data.
      * This function is likely totally unnecessary:
@@ -28,13 +34,9 @@ public class MeadowInterface
      */
     public static void UpdateConfigData()
     {
-        if (!MeadowCompatSetup.MeadowEnabled) return;
-
-        try
-        {
-            OnlineManager.lobby.GetData<ConfigData>().UpdateData();
-        }
-        catch { return; }
+        //configData.UpdateData();
+        if (OnlineManager.lobby != null && OnlineManager.lobby.TryGetData<ConfigData>(out var data))
+            data.UpdateData();
     }
 
     /**<summary>

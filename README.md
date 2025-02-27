@@ -153,19 +153,14 @@ Unfortunately, I haven't yet implemented any easier methods of tying data to an 
 
 ## Testing your mod:
 
-The optimal way to test your mod would be to use some testing builds.
-If you want to get these testing builds or contribute to Rain Meadow in any way, follow the steps in here: [Rain Meadow Contributing.md](https://github.com/henpemaz/Rain-Meadow/blob/main/CONTRIBUTING.md)
+Simply:
+* Create a Local lobby
+* Open another instance of Rain World (try right-clicking on your task bar if you're using Windows)
+* Join that lobby
+* Repeat as many times as necessary; you should be able to have many clients simultaneously
+* Have fun testing!
 
-Build with one of the following configurations:
-* StoryP2P for testing Story mode.
-* FreeRoamP2P for testing Meadow mode.
-* ArenaP2P for testing Arena mode.
+I personally recommend setting Rain World's resolution to be "Windowed", so that you can more easily see what's going on for each lobby member.
 
-With one of these builds copied into your mod folder, you should be able to open Rain World, create a lobby, open Rain World again, and join the lobby you made.
-Thus, you'll have two (or more) players running Rain World on your computer.
-This way, you won't have to send your mod to other computers just to test it.
-
-_Alternatively..._
-
-You could beg someone (like me) who has these test builds.
-That'll probably save you a few hours of strugging with GitHub repos and dependencies and what-not.
+**NOTE: This method does NOT simulate lag!**  
+Try asking Forthfora how to solve that problem. I don't know how to do it.

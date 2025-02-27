@@ -1,4 +1,6 @@
+using BepInEx.Logging;
 using Menu.Remix.MixedUI;
+using System;
 using UnityEngine;
 
 namespace RainMeadowSyncTemplate;
@@ -10,8 +12,11 @@ namespace RainMeadowSyncTemplate;
  */
 public class TemplateModOptions : OptionInterface
 {
-    public TemplateModOptions()
+    private static ManualLogSource Logger;
+    public TemplateModOptions(ManualLogSource logger)
     {
+        Logger = logger;
+
         PlayerSpeed = this.config.Bind<float>("PlayerSpeed", 1f, new ConfigAcceptableRange<float>(0f, 100f));
 
         RainMeadowCompat.EasyConfigSync.RegisterConfigs(PlayerSpeed);
@@ -60,13 +65,20 @@ public class TemplateModOptions : OptionInterface
      */
     public override void Update()
     {
-        if (playerSpeedConfig?.GetValueFloat() > 10)
+        try
         {
-            speedShameLabel?.Show();
+            if (playerSpeedConfig?.GetValueFloat() > 10)
+            {
+                speedShameLabel?.Show();
+            }
+            else
+            {
+                speedShameLabel?.Hide();
+            }
         }
-        else
+        catch (Exception ex)
         {
-            speedShameLabel?.Hide();
+            Logger.LogError(ex);
         }
     }
 

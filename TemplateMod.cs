@@ -40,7 +40,7 @@ public class TemplateMod : BaseUnityPlugin
         try
         {
             Instance = this;
-            Options = new TemplateModOptions();
+            Options = new TemplateModOptions(Logger);
         }
         catch (Exception ex)
         {
@@ -50,10 +50,10 @@ public class TemplateMod : BaseUnityPlugin
     }
     private void OnEnable()
     {
-        On.RainWorld.OnModsInit += RainWorldOnOnModsInit;
+        On.RainWorld.OnModsInit += RainWorld_OnModsInit;
 
         //this is the easiest way to set up the Rain Meadow stuff
-        SafeMeadowInterface.InitializeMeadowCompatibility();
+        SafeMeadowInterface.InitializeMeadowCompatibility(Logger);
         //alternatively, you could call SafeMeadowInterface.ModsInitialized() after mods are initialized
         //but don't call both
     }
@@ -61,18 +61,20 @@ public class TemplateMod : BaseUnityPlugin
     {
         //Remove hooks
 
-        On.RainWorld.OnModsInit -= RainWorldOnOnModsInit;
+        On.RainWorld.OnModsInit -= RainWorld_OnModsInit;
 
         if (IsInit)
         {
             On.Player.ctor -= PlayerHooks.PlayerOnctor;
+
+            IsInit = false;
         }
 
         SafeMeadowInterface.RemoveHooks();
     }
 
     private bool IsInit;
-    private void RainWorldOnOnModsInit(On.RainWorld.orig_OnModsInit orig, RainWorld self)
+    private void RainWorld_OnModsInit(On.RainWorld.orig_OnModsInit orig, RainWorld self)
     {
         orig(self);
         try
@@ -88,7 +90,7 @@ public class TemplateMod : BaseUnityPlugin
             Logger.LogDebug("Hooks added!");
 
             //this is an alternate way to initialize Rain Meadow compatibility:
-            //SafeMeadowInterface.ModsInitialized();
+            //SafeMeadowInterface.ModsInitialized(Logger);
         }
         catch (Exception ex)
         {
@@ -97,17 +99,4 @@ public class TemplateMod : BaseUnityPlugin
         }
     }
 
-    #region Helper Methods
-
-    /**<summary>
-     * This static method allows for easy logging to the LogOutput.log file.
-     * I made this method so that I can easily log anything from anywhere.
-     * </summary>
-     */
-    public static void LogSomething(object obj)
-    {
-        Instance.Logger.LogInfo(obj);
-    }
-
-    #endregion
 }

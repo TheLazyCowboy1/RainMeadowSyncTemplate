@@ -1,5 +1,7 @@
 ﻿
 
+using BepInEx.Logging;
+
 namespace RainMeadowCompat;
 
 /**<summary>
@@ -22,11 +24,11 @@ public class SafeMeadowInterface
      * If mods are already initialized, use ModsInitialized() instead.
      * </summary>
      */
-    public static void InitializeMeadowCompatibility()
+    public static void InitializeMeadowCompatibility(ManualLogSource? logger = null)
     {
         try
         {
-            MeadowCompatSetup.InitializeMeadowCompatibility();
+            MeadowCompatSetup.InitializeMeadowCompatibility(logger);
         } catch { }
     }
 
@@ -36,11 +38,11 @@ public class SafeMeadowInterface
      * Checks if Rain Meadow is installed.
      * </summary>
      */
-    public static void ModsInitialized()
+    public static void ModsInitialized(ManualLogSource? logger = null)
     {
         try
         {
-            MeadowCompatSetup.ModsInitialized();
+            MeadowCompatSetup.ModsInitialized(logger);
         } catch { }
     }
 
@@ -74,8 +76,8 @@ public class SafeMeadowInterface
     {
         try
         {
-            if (MeadowCompatSetup.MeadowEnabled)
-                MeadowInterface.UpdateConfigData();
+            //if (MeadowCompatSetup.MeadowEnabled)
+            MeadowInterface.UpdateConfigData();
         }
         catch { }
     }

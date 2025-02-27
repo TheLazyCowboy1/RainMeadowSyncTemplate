@@ -5,32 +5,23 @@ namespace RainMeadowCompat;
 
 /**<summary>
  * This class is really quite simple:
- * Make a class that extends this one:
- * E.g: public class RandomizerData : RainMeadowCompat.ManuallyUpdatedData
+ * Make a class that extends this one and is typed with itself:
+ * E.g: public class RandomizerData : RainMeadowCompat.ManuallyUpdatedData<RandomizerData>
  * 
  * In it, do 4 things:
- * Specify whether it should be "HostControlled".
- * Add a construct that INITIALIZES CurrentState.
- * Make UpdateData() reconstruct CurrentState.
- * Make a ManuallyUpdatedState of your own (see ManuallyUpdatedState).
+ * Define the variables that you will want synced
+ * Add a constructor that calls CreateState()
+ * Make UpdateData() update the relevant variables (technically optional,but recommended)
+ * Make a ManuallyUpdatedState of your own (see ManuallyUpdatedState)
  * Example:
- * UpdateData() => CurrentState = new RandomizerState();
- * private class RandomizerState : RainMeadowCompat.ManuallyUpdatedState
+ * private class RandomizerState : RainMeadowCompat.ManuallyUpdatedState<RandomizerData>
  * </summary>
  */
-public abstract class ManuallyUpdatedData : OnlineResource.ResourceData
+public abstract class ManuallyUpdatedData<T> : EasyData where T : ManuallyUpdatedData<T>
 {
 
-    public ManuallyUpdatedState CurrentState;
+    public ManuallyUpdatedState<T> CurrentState;
     public ulong LastUpdateTime = (ulong)DateTime.Now.Ticks;
-
-
-    /**<summary>
-     * If true, the host will not receive client data,
-     * and if any client tries to send data, the host will override it.
-     * </summary>
-     */
-    public abstract bool HostControlled { get; }
 
     /**<summary>
      * In your implementation, be sure to initialize CurrentState.
@@ -41,15 +32,23 @@ public abstract class ManuallyUpdatedData : OnlineResource.ResourceData
      * </summary>
      */
     public ManuallyUpdatedData()
-    {}
+    {
+        //CurrentState = CreateState();
+    }
+
+    public abstract ManuallyUpdatedState<T> CreateState();
 
     /**<summary>
-     * In this function, you must reconstruct CurrentState.
-     * Example:
-     * CurrentState = new RandomizerState(this);
+     * MAKE SURE you call the base method at the END of your UpdateData() method.
+     * So after you do all the logic to update your data, call:
+     * base.UpdateData();
      * </summary>
      */
-    public abstract void UpdateData();
+    public virtual void UpdateData()
+    {
+        CurrentState = CreateState();
+        MeadowCompatSetup.LogSomething("Initialized a new ConfigState.");
+    }
 
 
     /**<summary>

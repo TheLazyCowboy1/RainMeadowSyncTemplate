@@ -3,6 +3,8 @@ using RainMeadowSyncTemplate;
 using System;
 using RainMeadow;
 using System.Reflection;
+using System.Collections.Generic;
+using BepInEx.Logging;
 
 namespace RainMeadowCompat;
 
@@ -21,13 +23,15 @@ public class MeadowCompatSetup
 {
     //the mod id of Rain Meadow
     public const string RAIN_MEADOW_BEPINEX_ID = "henpemaz.rainmeadow";
-    public const string RAIN_MEADOW_ID = "henpemaz_rainmeadow";
+    public const string RAIN_MEADOW_MOD_ID = "henpemaz_rainmeadow";
 
     //whether Rain Meadow is currently enabled. Set by ModsInitialized()
     public static bool MeadowEnabled = false;
 
     //keeps track of whether the OnModsInit hook was added
     private static bool AddedOnModsInit = false;
+
+    public static ManualLogSource? Logger;
 
     /**<summary>
      * Use SafeMeadowInterface.InitializeMeadowCompatibility() instead.
@@ -38,11 +42,14 @@ public class MeadowCompatSetup
      * If mods are already initialized, use ModsInitialized() instead.
      * </summary>
      */
-    public static void InitializeMeadowCompatibility()
+    public static void InitializeMeadowCompatibility(ManualLogSource? logger = null)
     {
         On.RainWorld.OnModsInit += RainWorld_OnModsInit;
 
         AddedOnModsInit = true;
+
+        if (logger != null)
+            Logger = logger;
     }
 
     
@@ -61,31 +68,31 @@ public class MeadowCompatSetup
      * Checks if Rain Meadow is installed.
      * </summary>
      */
-    public static void ModsInitialized()
+    public static void ModsInitialized(ManualLogSource? logger = null)
     {
-        foreach (ModManager.Mod mod in ModManager.ActiveMods)
+        if (logger != null)
+            Logger = logger;
+
+        if (ModManager.ActiveMods.Exists(mod => mod.id == RAIN_MEADOW_MOD_ID))
         {
-            if (mod.id == RAIN_MEADOW_ID)
-            {
-                MeadowEnabled = true;
-                AddLobbyHook();
-                break;
-            }
+            MeadowEnabled = true;
+            AddLobbyHook();
         }
+
+        LogSomething("Rain Meadow enabled: " + MeadowEnabled);
     }
 
-    private static Hook LobbyHook = null;
+    private static bool LobbyHookAdded = false;
     private static void AddLobbyHook()
     {
         try
         {
-            LobbyHook = new Hook(
-                typeof(OnlineResource).GetMethod("Available", BindingFlags.Instance | BindingFlags.NonPublic),
-                typeof(MeadowCompatSetup).GetMethod(nameof(OnLobbyAvailable), BindingFlags.Static | BindingFlags.NonPublic)
-            );
-
-            //in the future, we may instaed use something like:
-            //Lobby.OnAvailable += AddLobbyData;
+            if (!LobbyHookAdded)
+            {
+                Lobby.OnAvailable += AddLobbyData;
+                LobbyHookAdded = true;
+                ExtraDebug("Added lobby available event");
+            }
         }
         catch (Exception ex) { LogSomething(ex); }
     }
@@ -102,22 +109,12 @@ public class MeadowCompatSetup
         try
         {
             if (AddedOnModsInit) On.RainWorld.OnModsInit -= RainWorld_OnModsInit;
-
-            //destroy the OnLobbyAvailable hook, if it exists
-            if (LobbyHook != null) LobbyHook.Dispose();
+            if (LobbyHookAdded) Lobby.OnAvailable -= AddLobbyData;
         }
         catch (Exception ex) { LogSomething(ex); }
     }
 
-
-    private delegate void orig_OnLobbyAvailable(OnlineResource self);
-    private static void OnLobbyAvailable(orig_OnLobbyAvailable orig, OnlineResource self)
-    {
-        orig(self);
-
-        AddLobbyData(self);
-    }
-
+    public static List<Type> DataToAdd = new();
     /**
      * This is the place to add all your initial data.
      * This function is called as soon as a lobby is available.
@@ -129,9 +126,24 @@ public class MeadowCompatSetup
      */
     private static void AddLobbyData(OnlineResource lobby)
     {
-        if (!lobby.TryGetData(out ConfigData currentConfigData))
-            lobby.AddData(new ConfigData());
+        if (!lobby.isOwner)
+            return; //don't add data to something I don't own
+        
+        ExtraDebug("AddLobbyData");
+        foreach (Type dataType in DataToAdd)
+        {
+            if (!typeof(EasyData).IsAssignableFrom(dataType))
+                continue; //it's not EasyData, so discard it
 
+            if (lobby.TryGetData(dataType, out var _))
+                continue; //don't add/create data if we already have it
+
+            EasyData data = (EasyData) Activator.CreateInstance(dataType);
+            data.AddToResource(lobby);
+            
+            ExtraDebug("Added data");
+        }
+        
         //lobby.AddData<ExampleData>(new ExampleData());
     }
 
@@ -143,7 +155,7 @@ public class MeadowCompatSetup
      */
     public static void LogSomething(object obj)
     {
-        TemplateMod.LogSomething(obj);
+        Logger?.LogInfo(obj);
     }
 
     /**<summary>
@@ -154,6 +166,6 @@ public class MeadowCompatSetup
      */
     public static void ExtraDebug(object obj)
     {
-        //TemplateMod.LogSomething(obj);
+        Logger?.LogDebug(obj);
     }
 }
